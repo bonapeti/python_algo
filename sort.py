@@ -2,21 +2,13 @@ from timeit import default_timer as timer
 import pytest
 
 def bubble_sort(array):
-    
     if array is None:
         return None
-
-    no_comparison = 0
-    start = timer()
 
     for outer_index in range(0, len(array)):
         for inner_index in range(len(array) - 1, outer_index, -1):
             if (array[inner_index -1] > array[inner_index]):
-                no_comparison = no_comparison + 1
                 array[inner_index], array[inner_index -1] = array[inner_index - 1],array[inner_index]
-    end = timer()
-    print(end - start)
-    print("Number of comparisons: {}".format(no_comparison))
     return array
 
 def insertion_sort(array):
@@ -26,13 +18,21 @@ def insertion_sort(array):
     for outer_index in range(1, len(array)):
         current_value = array[outer_index]
         inner_index = outer_index - 1
-        print("current_value={}, inner_index={}".format(current_value,inner_index))
         while current_value < array[inner_index] and inner_index >=0:
             array[inner_index + 1] = array[inner_index]
             inner_index = inner_index -1
-            print("array={}".format(array))
         array[inner_index + 1] = current_value
-        print("array={}".format(array))
+
+    return array
+
+def selection_sort(array):
+
+
+
+    for separator_index in range(len(array)):
+        smallest, smallest_so_far_index = find_index_of_smallest(array[separator_index:len(array)])
+        array[separator_index -1] 
+        pass
 
     return array
 
@@ -48,8 +48,18 @@ def ordered_list(size):
                                                     (bubble_sort, [3,2,1],[1,2,3]),
                                                     (insertion_sort,[],[]),
                                                     (insertion_sort,[1],[1]),
-                                                    (insertion_sort,[3,2,1],[1,2,3])
+                                                    (insertion_sort,[3,2,1],[1,2,3]),
+                                                    (selection_sort,[3,2,1],[1,2,3])
                                                     ])
 def test_sort(sort_fn, input, expected):
     assert sort_fn(input) == expected
 
+@pytest.mark.parametrize("sort_fn, sizes", [(bubble_sort, [10,100,1000,10000]), 
+                                            (insertion_sort,[10,100,1000,10000])
+                                                    ])
+def te1st_performance(sort_fn, sizes):
+    for size in sizes:
+        start = timer()
+        sort_fn(reversed_list(size))
+        end = timer()
+        print("Sorting with {} of size {} took {}".format(sort_fn,size, end - start))
