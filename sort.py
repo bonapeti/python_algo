@@ -44,3 +44,39 @@ def selection_sort(array):
             array[separator_index] = smallest
 
     return array
+
+def merge_sort(array):
+
+    if array is None:
+        return None
+
+    if len(array) < 2:
+        return array
+
+
+    def next_or_infinite(array,i):
+        if i < len(array):
+            return array[i]
+        else:
+            return sys.maxsize
+
+    
+
+    divisor = int(len(array) / 2)
+    left_array = array[:divisor]
+    right_array = array[divisor:]
+    merge_sort(left_array)
+    merge_sort(right_array)
+    
+    left_index = 0
+    right_index = 0
+    for i in range(len(array)):
+        
+        if next_or_infinite(left_array,left_index) < next_or_infinite(right_array,right_index):
+            array[i] = next_or_infinite(left_array,left_index)
+            left_index = left_index + 1
+        else:
+            array[i] = next_or_infinite(right_array,right_index)
+            right_index = right_index + 1
+
+    return array
